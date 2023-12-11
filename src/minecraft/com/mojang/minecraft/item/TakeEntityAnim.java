@@ -1,0 +1,45 @@
+package com.mojang.minecraft.item;
+
+import com.mojang.minecraft.Entity;
+import com.mojang.minecraft.level.Level;
+import com.mojang.minecraft.renderer.Textures;
+
+public class TakeEntityAnim extends Entity {
+	private static final long serialVersionUID = 1L;
+	private int time = 0;
+	private Entity item;
+	private Entity player;
+	private float xorg;
+	private float yorg;
+	private float zorg;
+
+	public TakeEntityAnim(Level level, Entity item, Entity entity) {
+		super(level);
+		this.item = item;
+		this.player = entity;
+		this.setSize(1.0F, 1.0F);
+		this.xorg = item.x;
+		this.yorg = item.y;
+		this.zorg = item.z;
+	}
+
+	public void tick() {
+		++this.time;
+		if(this.time >= 3) {
+			this.remove();
+		}
+
+		float f1 = (f1 = (float)this.time / 3.0F) * f1;
+		this.xo = this.item.xo = this.item.x;
+		this.yo = this.item.yo = this.item.y;
+		this.zo = this.item.zo = this.item.z;
+		this.x = this.item.x = this.xorg + (this.player.x - this.xorg) * f1;
+		this.y = this.item.y = this.yorg + (this.player.y - 1.0F - this.yorg) * f1;
+		this.z = this.item.z = this.zorg + (this.player.z - this.zorg) * f1;
+		this.setPos(this.x, this.y, this.z);
+	}
+
+	public void render(Textures textures, float translation) {
+		this.item.render(textures, translation);
+	}
+}
