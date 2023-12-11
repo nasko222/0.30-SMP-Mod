@@ -143,7 +143,7 @@ public final class Gui extends GuiComponent {
 			}
 		}
 
-		font5.drawShadow("0.30 SMP MOD v0.12", 2, 2, 0xFFFFFF);
+		font5.drawShadow("0.30 SMP MOD v0.13", 2, 2, 0xFFFFFF);
 		if(this.minecraft.options.showFramerate) {
 			font5.drawShadow(this.minecraft.fpsString, 2, 12, 0xFFFFFF);
 		}

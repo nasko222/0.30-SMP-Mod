@@ -20,6 +20,35 @@ public final class ChatScreen extends Screen {
 	public final void tick() {
 		++this.counter;
 	}
+	
+	public String giveCMD(String command) {
+        // Check if the command starts with "/give"
+        if (command.startsWith("/give ")) {
+            // Split the command into parts
+            String[] parts = command.split("\\s+");
+
+            // Check if there are at least three parts ("/give", int1, int2)
+            if (parts.length >= 3) {
+                try {
+                    int intValue1 = Integer.parseInt(parts[1]);
+                    int intValue2 = Integer.parseInt(parts[2]);
+
+                    if (intValue1 > 0 && intValue1 < 50) {
+                    	if (true) {
+                    		this.minecraft.player.inventory.addResource(intValue1, intValue2);
+                    	}
+                    	
+                    	return "I'm cheating some " + intValue1;
+                    	
+                    	
+                    }
+                	} catch (NumberFormatException e) {
+                }
+            } 
+        }
+        
+        return null;
+    }
 
 	protected final void keyPressed(char eventCharacter, int eventKey) {
 		if(eventKey == 1) {
@@ -28,6 +57,25 @@ public final class ChatScreen extends Screen {
 			Client client10000 = this.minecraft.networkClient;
 			String eventKey1 = this.typedMsg.trim();
 			Client eventCharacter1 = client10000;
+			
+			String flag = null;
+			
+			if (eventKey1.startsWith("/give ")) {
+				
+				//if (this.minecraft.user.name.equals("OtrexDev")) return;
+				
+				flag = giveCMD(eventKey1);
+				this.minecraft.setScreen((Screen)null);
+			}
+			
+			if (eventKey1.equals("/clear")) {
+				this.minecraft.player.inventory.clearInv();
+				this.minecraft.setScreen((Screen)null);
+				return;
+			}
+			
+			if (flag != null) eventKey1 = flag;
+			
 			if((eventKey1 = eventKey1.trim()).length() > 0) {
 				eventCharacter1.serverConnection.sendPacket(Packet.CHAT_MESSAGE, new Object[]{-1, eventKey1});
 			}

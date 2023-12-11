@@ -83,6 +83,12 @@ public class Inventory implements Serializable {
 		}
 
 	}
+	
+	public void addResource(int intValue1, int intValue2) {
+		for (int i = 0; i < intValue2; i++) {
+			addResource(intValue1);
+		}
+	}
 
 	public boolean addResource(int id) {
 		int i2;
@@ -122,4 +128,13 @@ public class Inventory implements Serializable {
 			return true;
 		}
 	}
+
+	public void clearInv() {
+		for (int i = 0; i < 9; i++) {
+			slots[i] = -1;
+			count[i] = 0;
+		}
+	}
+
+	
 }

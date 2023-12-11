@@ -27,6 +27,8 @@ public final class SurvivalGameMode extends GameMode {
 			Minecraft.DontLoadToolbar = false;
 			return;
 		}
+		
+		/*
 		player.inventory.slots[0] = Tile.clothWhite.id;
 		player.inventory.count[0] = 99;
 		
@@ -44,6 +46,8 @@ public final class SurvivalGameMode extends GameMode {
 		player.inventory.count[7] = 99;
 		player.inventory.slots[8] = Tile.obsidian.id;
 		player.inventory.count[8] = 99;
+		
+		*/
 	}
 
 	public final void destroyBlock(int x, int y, int z) {
