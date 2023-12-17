@@ -1,6 +1,5 @@
 package com.mojang.minecraft.gui;
 
-import com.mojang.minecraft.level.tile.Tile;
 import com.mojang.minecraft.net.Client;
 import com.mojang.minecraft.net.Packet;
 
@@ -34,7 +33,7 @@ public final class ChatScreen extends Screen {
                     int intValue1 = Integer.parseInt(parts[1]);
                     int intValue2 = Integer.parseInt(parts[2]);
 
-                    if (intValue1 > 0 && intValue1 < Tile.amounts) {
+                    if (intValue1 > 0 && intValue1 < 50) {
                     	if (true) {
                     		this.minecraft.player.inventory.addResource(intValue1, intValue2);
                     	}

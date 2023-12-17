@@ -21,9 +21,6 @@ public class Tile {
 	private static boolean[] isOpaque = new boolean[256];
 	public static final boolean[] isLiquid = new boolean[256];
 	private static int[] tickSpeed = new int[256];
-	
-	public static int amounts = 50;
-	
 	public static final Tile rock;
 	public static final Tile grass;
 	public static final Tile dirt;
@@ -73,7 +70,6 @@ public class Tile {
 	public static final Tile bookshelf;
 	public static final Tile mossStone;
 	public static final Tile obsidian;
-	//public static final Tile chest;
 	public int tex;
 	public final int id;
 	public Tile$SoundType soundType;
@@ -691,10 +687,5 @@ public class Tile {
 		tile1 = tile10000;
 		tile10000.explodeable = false;
 		obsidian = tile1;
-		/*tile10000 = (new ChestTile(50)).setSoundAndGravity(Tile$SoundType.wood, 1.0F, 1.0F, 1.5F);
-		z0 = false;
-		tile1 = tile10000;
-		tile10000.explodeable = false;
-		chest = tile1;*/
 	}
 }
