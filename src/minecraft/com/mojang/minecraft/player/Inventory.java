@@ -89,6 +89,16 @@ public class Inventory implements Serializable {
 			addResource(intValue1);
 		}
 	}
+	
+	public boolean addTool(int id) {
+		int i2 = this.containsTileAt(-1);
+		if (i2 < 0) return false;
+			this.slots[i2] = id;
+			++this.count[i2];
+			this.popTime[i2] = 5;
+			return true;
+		
+	}
 
 	public boolean addResource(int id) {
 		int i2;

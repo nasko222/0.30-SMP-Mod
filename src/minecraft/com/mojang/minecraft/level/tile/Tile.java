@@ -4,6 +4,7 @@ import com.mojang.minecraft.HitResult;
 import com.mojang.minecraft.item.Item;
 import com.mojang.minecraft.level.Level;
 import com.mojang.minecraft.level.liquid.Liquid;
+import com.mojang.minecraft.level.tile.ItemTile.ItemMode;
 import com.mojang.minecraft.model.Vec3;
 import com.mojang.minecraft.particle.ParticleEngine;
 import com.mojang.minecraft.particle.TerrainParticle;
@@ -70,6 +71,23 @@ public class Tile {
 	public static final Tile bookshelf;
 	public static final Tile mossStone;
 	public static final Tile obsidian;
+	
+	public static final Tile pickaxeWood = new ItemTile(101, 64+16+16);
+	public static final Tile axeWood = new ItemTile(102, 64+16+16+16);
+	public static final Tile shovelWood = new ItemTile(103, 64+16+16+16+16);
+	
+	public static final Tile pickaxeStone = new ItemTile(104, 64+16+16+1);
+	public static final Tile axeStone = new ItemTile(105, 64+16+16+16+1);
+	public static final Tile shovelStone = new ItemTile(106, 64+16+16+16+16+1);
+	
+	public static final Tile pickaxeIron = new ItemTile(107, 64+16+16+2);
+	public static final Tile axeIron = new ItemTile(108, 64+16+16+16+2);
+	public static final Tile shovelIron = new ItemTile(109, 64+16+16+16+16+2);
+	
+	public static final Tile pickaxeGold = new ItemTile(110, 64+16+16+3);
+	public static final Tile axeGold = new ItemTile(111, 64+16+16+16+3);
+	public static final Tile shovelGold = new ItemTile(112, 64+16+16+16+16+3);
+	
 	public int tex;
 	public final int id;
 	public Tile$SoundType soundType;
@@ -367,7 +385,15 @@ public class Tile {
 	}
 
 	public final int getDestroyProgress() {
-		return this.destroyProgress;
+		int dp = this.destroyProgress;
+		if (this.soundType == Tile$SoundType.metal || this.soundType == Tile$SoundType.stone) dp*=2;
+		if (ItemTile.mode == ItemMode.AXE && this.soundType == Tile$SoundType.wood) dp/=ItemTile.itemPower;
+		if (ItemTile.mode == ItemMode.AXE && this.soundType == Tile$SoundType.cloth) dp/=ItemTile.itemPower;
+		if (ItemTile.mode == ItemMode.PICKAXE && this.soundType == Tile$SoundType.stone) dp/=ItemTile.itemPower;
+		if (ItemTile.mode == ItemMode.PICKAXE && this.soundType == Tile$SoundType.metal) dp/=ItemTile.itemPower;
+		if (ItemTile.mode == ItemMode.SHOVEL && this.soundType == Tile$SoundType.grass) dp/=ItemTile.itemPower;
+		if (ItemTile.mode == ItemMode.SHOVEL && this.soundType == Tile$SoundType.gravel) dp/=ItemTile.itemPower;
+		return dp;
 	}
 
 	public void spawnResources(Level level, int x, int y, int z) {

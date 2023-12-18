@@ -33,7 +33,23 @@ public final class ChatScreen extends Screen {
                     int intValue1 = Integer.parseInt(parts[1]);
                     int intValue2 = Integer.parseInt(parts[2]);
 
-                    if (intValue1 > 0 && intValue1 < 50) {
+                    if (intValue1 > 0 && intValue1 < 256) {
+                    	if (true) {
+                    		this.minecraft.player.inventory.addResource(intValue1, intValue2);
+                    	}
+                    	
+                    	return "I'm cheating some " + intValue1;
+                    	
+                    	
+                    }
+                	} catch (NumberFormatException e) {
+                }
+            } else if (parts.length >= 2) {
+                try {
+                    int intValue1 = Integer.parseInt(parts[1]);
+                    int intValue2 = 1;
+
+                    if (intValue1 > 0 && intValue1 < 256) {
                     	if (true) {
                     		this.minecraft.player.inventory.addResource(intValue1, intValue2);
                     	}

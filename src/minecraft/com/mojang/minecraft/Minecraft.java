@@ -4,7 +4,9 @@ import com.mojang.comm.SocketConnection;
 import com.mojang.minecraft.gamemode.CreativeGameMode;
 import com.mojang.minecraft.gamemode.GameMode;
 import com.mojang.minecraft.gamemode.SurvivalGameMode;
+import com.mojang.minecraft.gui.BlockSelectionScreen;
 import com.mojang.minecraft.gui.ChatScreen;
+import com.mojang.minecraft.gui.CraftMenu;
 import com.mojang.minecraft.gui.DeathScreen;
 import com.mojang.minecraft.gui.ErrorScreen;
 import com.mojang.minecraft.gui.Font;
@@ -18,6 +20,8 @@ import com.mojang.minecraft.level.LevelIO;
 import com.mojang.minecraft.level.levelgen.LevelGen;
 import com.mojang.minecraft.level.liquid.Liquid;
 import com.mojang.minecraft.level.tile.Tile;
+import com.mojang.minecraft.level.tile.ItemTile;
+import com.mojang.minecraft.level.tile.ItemTile.ItemMode;
 import com.mojang.minecraft.mob.Mob;
 import com.mojang.minecraft.model.Cube;
 import com.mojang.minecraft.model.HumanoidModel;
@@ -1116,11 +1120,31 @@ public final class Minecraft implements Runnable {
 										GL11.glColor4f(f85 = tileRenderer121.minecraft.level.getBrightness((int)player115.x, (int)player115.y, (int)player115.z), f85, f85, 1.0F);
 										Tesselator tesselator100 = Tesselator.instance;
 										if(tileRenderer121.tile != null) {
-											f18 = 0.4F;
-											GL11.glScalef(0.4F, f18, f18);
-											GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-											GL11.glBindTexture(GL11.GL_TEXTURE_2D, tileRenderer121.minecraft.textures.loadTexture("/terrain.png"));
-											tileRenderer121.tile.renderGuiTile(tesselator100);
+											if (tileRenderer121.tile.getId() < 101) {
+												f18 = 0.4F;
+												GL11.glScalef(0.4F, f18, f18);
+												GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+												GL11.glBindTexture(GL11.GL_TEXTURE_2D, tileRenderer121.minecraft.textures.loadTexture("/terrain.png"));
+												tileRenderer121.tile.renderGuiTile(tesselator100);
+											}
+											else {
+												f18 = 0.6F;
+												GL11.glScalef(0.6F, 0.6F, f18);
+												GL11.glBindTexture(GL11.GL_TEXTURE_2D, tileRenderer121.minecraft.textures.loadTexture("/terrain.png"));
+												GL11.glDisable(GL11.GL_LIGHTING);
+												Tesselator tessellator6 = Tesselator.instance;
+												float f1 = (float)(tileRenderer121.tile.tex % 16 << 4) / 256.0F;
+												float f2 = (float)((tileRenderer121.tile.tex % 16 << 4) + 16) / 256.0F;
+												float f9 = (float)(tileRenderer121.tile.tex / 16 << 4) / 256.0F;
+												float f4 = (float)((tileRenderer121.tile.tex / 16 << 4) + 16) / 256.0F;
+												tessellator6.begin();
+												tessellator6.vertexUV(-0.4F, -0.2F, -0.4F, f1, f4);
+												tessellator6.vertexUV(0.29999998F, -0.2F, 0.29999998F, f2, f4);
+												tessellator6.vertexUV(0.29999998F, 0.8F, 0.29999998F, f2, f9);
+												tessellator6.vertexUV(-0.4F, 0.8F, -0.4F, f1, f9);
+												tessellator6.end();
+												GL11.glEnable(GL11.GL_LIGHTING);
+											}
 										} else {
 											player115.bindTexture(tileRenderer121.minecraft.textures);
 											GL11.glScalef(1.0F, -1.0F, -1.0F);
@@ -1296,6 +1320,8 @@ public final class Minecraft implements Runnable {
 						Tile tile9;
 						AABB aABB10;
 						if(((tile9 = Tile.tiles[this.level.getTile(i2, i3, i4)]) == null || tile9 == Tile.water || tile9 == Tile.calmWater || tile9 == Tile.lava || tile9 == Tile.calmLava) && ((aABB10 = Tile.tiles[i8].getTileAABB(i2, i3, i4)) == null || (this.player.bb.intersects(aABB10) ? false : this.level.isFree(aABB10)))) {
+							if (Tile.tiles[i8].getId() > 100) return;
+							
 							if(!this.gamemode.removeResource(i8)) {
 								return;
 							}
@@ -1595,6 +1621,11 @@ public final class Minecraft implements Runnable {
 		if(this.screen == null && this.player != null && this.player.health <= 0) {
 			this.setScreen((Screen)null);
 		}
+		
+		ItemTile.mode = ItemTile.getItemMode(this.player.inventory.getSelected());
+		ItemTile.itemPower = ItemTile.getItemPower(this.player.inventory.getSelected());
+		
+		//System.out.println(ItemTile.mode + " " + ItemTile.itemPower);
 
 		if(this.screen == null || this.screen.allowUserInput) {
 			int i20;
@@ -1703,9 +1734,24 @@ public final class Minecraft implements Runnable {
 						if(Keyboard.getEventKey() == Keyboard.KEY_F5) {
 							this.raining = !this.raining;
 						}
+						
+						if(Keyboard.getEventKey() == Keyboard.KEY_Q) {
+							int count = this.player.inventory.count[this.player.inventory.selected];
+							count--;
+							
+							if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) )
+								count = 0;
+							
+							this.player.inventory.count[this.player.inventory.selected] = count;
+							if (count == 0)this.player.inventory.slots[this.player.inventory.selected] = -1;
+						}
 
 						if(Keyboard.getEventKey() == this.options.build.key) {
 							this.gamemode.handleOpenInventory();
+						}
+						
+						if (Keyboard.getEventKey() == Keyboard.KEY_C) {
+							this.setScreen(new CraftMenu());
 						}
 
 						if(Keyboard.getEventKey() == this.options.chat.key && this.networkClient != null && this.networkClient.isConnected()) {
@@ -1719,6 +1765,9 @@ public final class Minecraft implements Runnable {
 							this.player.inventory.selected = i20;
 						}
 					}
+					
+					
+					
 				} while(Keyboard.getEventKey() != this.options.toggleFog.key);
 
 				this.options.setOption(4, !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && !Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) ? 1 : -1);

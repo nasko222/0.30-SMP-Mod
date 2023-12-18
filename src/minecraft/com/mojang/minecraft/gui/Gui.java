@@ -123,18 +123,30 @@ public final class Gui extends GuiComponent {
 					GL11.glScalef(f23, f16, 1.0F);
 					GL11.glTranslatef(-10.0F, -10.0F, 0.0F);
 				}
+				
+				if (Tile.tiles[i15].getId() < 101) {
+					GL11.glScalef(10.0F, 10.0F, 10.0F);
+					GL11.glTranslatef(1.0F, 0.5F, 0.0F);
+					GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
+					GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
+					GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
+					GL11.glScalef(-1.0F, -1.0F, -1.0F);
+				}else {
+					GL11.glScalef(16.0F, 16.0F, 16.0F);
+					GL11.glTranslatef(1.0F, 0.5F, 0.0F);
+					GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
+					GL11.glTranslatef(-0.4F, -0.2F, 0.0F);
+					GL11.glScalef(-1.0F, -1.0F, -1.0F);
+				}
 
-				GL11.glScalef(10.0F, 10.0F, 10.0F);
-				GL11.glTranslatef(1.0F, 0.5F, 0.0F);
-				GL11.glRotatef(-30.0F, 1.0F, 0.0F, 0.0F);
-				GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
-				GL11.glTranslatef(-1.5F, 0.5F, 0.5F);
-				GL11.glScalef(-1.0F, -1.0F, -1.0F);
+				
 				int i20 = textures6.loadTexture("/terrain.png");
 				GL11.glBindTexture(GL11.GL_TEXTURE_2D, i20);
+				
 				tesselator7.begin();
 				Tile.tiles[i15].render(tesselator7);
 				tesselator7.end();
+				
 				GL11.glPopMatrix();
 				if(inventory8.count[i12] > 1) {
 					string21 = "" + inventory8.count[i12];
@@ -143,7 +155,7 @@ public final class Gui extends GuiComponent {
 			}
 		}
 
-		font5.drawShadow("0.30 SMP MOD v0.13", 2, 2, 0xFFFFFF);
+		font5.drawShadow("0.30 SMP MOD v0.2", 2, 2, 0xFFFFFF);
 		if(this.minecraft.options.showFramerate) {
 			font5.drawShadow(this.minecraft.fpsString, 2, 12, 0xFFFFFF);
 		}

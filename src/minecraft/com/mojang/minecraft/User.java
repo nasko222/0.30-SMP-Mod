@@ -8,6 +8,7 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public final class User {
 	public static List creativeTiles;
+	public static List tools;
 	public String name;
 	public String sessionid;
 	public String mpPass;
@@ -36,5 +37,27 @@ public final class User {
 		creativeTiles.add(Tile.clothDarkGray);
 		creativeTiles.add(Tile.clothGray);
 		creativeTiles.add(Tile.clothWhite);
+	}
+	
+	static {
+		(tools = new ArrayList()).add(Tile.pickaxeWood);
+		;
+		tools.add(Tile.axeWood);
+		tools.add(Tile.shovelWood);
+		
+		tools.add(Tile.pickaxeStone);
+		tools.add(Tile.axeStone);
+		tools.add(Tile.shovelStone);
+		
+		tools.add(Tile.pickaxeIron);
+		tools.add(Tile.axeIron);
+		tools.add(Tile.shovelIron);
+		
+		tools.add(Tile.pickaxeGold);
+		tools.add(Tile.axeGold);
+		tools.add(Tile.shovelGold);
+		
+		
+	
 	}
 }
