@@ -88,6 +88,8 @@ public class Tile {
 	public static final Tile axeGold = new ItemTile(111, 64+16+16+16+3);
 	public static final Tile shovelGold = new ItemTile(112, 64+16+16+16+16+3);
 	
+	public static final Tile apple = new FoodTile(121, 64+16+16+6);
+	
 	public int tex;
 	public final int id;
 	public Tile$SoundType soundType;
@@ -406,7 +408,20 @@ public class Tile {
 
 			for(int i7 = 0; i7 < i6; ++i7) {
 				if(random.nextFloat() <= chance) {
-					((Player)level.player).addResource(this.getId());
+					if ((this.soundType == Tile$SoundType.metal || this.soundType == Tile$SoundType.stone))
+					{
+						if (ItemTile.mode == ItemMode.PICKAXE) {
+							
+						
+							
+							((Player)level.player).addResource(this.getId());
+						}
+						
+						
+					}
+					else {
+						((Player)level.player).addResource(this.getId());
+					}
 				}
 			}
 

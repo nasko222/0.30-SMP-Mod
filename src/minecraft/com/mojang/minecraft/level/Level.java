@@ -954,9 +954,17 @@ public class Level implements Serializable {
 					float f17 = (float)i14 + 0.5F - z;
 					int i20;
 					if(i12 >= 0 && i13 >= 0 && i14 >= 0 && i12 < this.width && i13 < this.depth && i14 < this.height && f15 * f15 + f16 * f16 + f17 * f17 < radius * radius && (i20 = this.getTile(i12, i13, i14)) > 0 && Tile.tiles[i20].isExplodeable()) {
+						
+						if (this.getTile((int)x, (int)y, (int)z) != 0) continue;
+						
 						Tile.tiles[i20].spawnResources(this, i12, i13, i14, 0.3F);
 						this.setTile(i12, i13, i14, 0);
-						Tile.tiles[i20].wasExploded(this, i12, i13, i14);
+						
+						if(this.rendererContext.isOnlineClient()) {
+							this.rendererContext.networkClient.sendTileUpdated(i12, i13, i14, 0, 1);
+						}
+
+						netSetTile(i12, i13, i14, 0);
 					}
 				}
 			}

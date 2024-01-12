@@ -12,6 +12,7 @@ public class ItemTile extends Tile {
 	}
 	
 	public static ItemMode getItemMode(int id) {
+		if (id > 120) return ItemMode.NONE;
 		if (id < 101) return ItemMode.NONE;
 		int selected = id - 101;
 		if (selected % 3 == 0) return ItemMode.PICKAXE;
@@ -21,6 +22,7 @@ public class ItemTile extends Tile {
 	}
 	
 	public static int getItemPower(int id) {
+		if (id > 120) return 0;
 		if (id < 101) return 0;
 		int selected = id - 101;
 		int power = 2;

@@ -20,6 +20,7 @@ import com.mojang.minecraft.level.LevelIO;
 import com.mojang.minecraft.level.levelgen.LevelGen;
 import com.mojang.minecraft.level.liquid.Liquid;
 import com.mojang.minecraft.level.tile.Tile;
+import com.mojang.minecraft.level.tile.FoodTile;
 import com.mojang.minecraft.level.tile.ItemTile;
 import com.mojang.minecraft.level.tile.ItemTile.ItemMode;
 import com.mojang.minecraft.mob.Mob;
@@ -1259,6 +1260,17 @@ public final class Minecraft implements Runnable {
 				this.gameRenderer.tileRenderer.rot = -1;
 				tileRenderer6.move = true;
 			}
+			
+			if (id == 1) {
+				if (this.player.inventory.getSelected() == Tile.apple.getId()) {
+					int health = this.player.health;
+					health += 4;
+					this.player.health = Math.min(health, 20);
+					this.player.inventory.count[this.player.inventory.selected]--;
+					if (this.player.inventory.count[this.player.inventory.selected] <= 0)
+					this.player.inventory.slots[this.player.inventory.selected] = -1;
+				}
+			}
 
 			int i2;
 			if(id == 1 && (i2 = this.player.inventory.getSelected()) > 0 && this.gamemode.removeResource(this.player, i2)) {
@@ -1325,6 +1337,47 @@ public final class Minecraft implements Runnable {
 							if(!this.gamemode.removeResource(i8)) {
 								return;
 							}
+							
+							/*if (Tile.tiles[i8] == Tile.bush && this.level.getTile(i2, i3 - 1, i4) == 2) {
+								ComboTile(i2, i3, i4, id, 17);
+								ComboTile(i2, i3 + 1, i4, id, 17);
+								ComboTile(i2, i3 + 2, i4, id, 17);
+								ComboTile(i2, i3 + 3, i4, id, 17);
+								
+								ComboTile(i2 + 0, i3 + 2, i4 + 0, id, 18);
+								ComboTile(i2 - 1, i3 + 2, i4 + 0, id, 18);
+								ComboTile(i2 + 0, i3 + 2, i4 - 1, id, 18);
+								ComboTile(i2 - 1, i3 + 2, i4 - 1, id, 18);
+								ComboTile(i2 + 0, i3 + 2, i4 + 1, id, 18);
+								ComboTile(i2 + 1, i3 + 2, i4 + 0, id, 18);
+								ComboTile(i2 + 1, i3 + 2, i4 + 1, id, 18);
+
+								ComboTile(i2 - 1, i3 + 3, i4 + 0, id, 18);
+								ComboTile(i2 + 0, i3 + 3, i4 - 1, id, 18);
+								ComboTile(i2 - 1, i3 + 3, i4 - 1, id, 18);
+								ComboTile(i2 + 0, i3 + 3, i4 + 1, id, 18);
+								ComboTile(i2 + 1, i3 + 3, i4 + 0, id, 18);
+								ComboTile(i2 + 1, i3 + 3, i4 + 1, id, 18);
+								
+								ComboTile(i2 + 0, i3 + 4, i4 + 0, id, 18);
+								ComboTile(i2 - 1, i3 + 4, i4 + 0, id, 18);
+								ComboTile(i2 + 0, i3 + 4, i4 - 1, id, 18);
+								ComboTile(i2 - 1, i3 + 4, i4 - 1, id, 18);
+								ComboTile(i2 + 0, i3 + 4, i4 + 1, id, 18);
+								ComboTile(i2 + 1, i3 + 4, i4 + 0, id, 18);
+								ComboTile(i2 + 1, i3 + 4, i4 + 1, id, 18);
+								
+								ComboTile(i2 - 1, i3 + 2, i4 + 1, id, 18);
+								ComboTile(i2 + 1, i3 + 2, i4 - 1, id, 18);
+								
+								ComboTile(i2 - 1, i3 + 3, i4 + 1, id, 18);
+								ComboTile(i2 + 1, i3 + 3, i4 - 1, id, 18);
+								
+								ComboTile(i2 - 1, i3 + 4, i4 + 1, id, 18);
+								ComboTile(i2 + 1, i3 + 4, i4 - 1, id, 18);
+								this.gameRenderer.tileRenderer.progress = 0.0F;
+								return;
+							}*/
 
 							if(this.isOnlineClient()) {
 								this.networkClient.sendTileUpdated(i2, i3, i4, id, i8);
@@ -1341,6 +1394,15 @@ public final class Minecraft implements Runnable {
 			}
 		}
 	}
+	
+	/*private void ComboTile(int x, int y, int z, int mouseID, int blockID) {
+		if(this.isOnlineClient()) {
+			this.networkClient.sendTileUpdated(x, y, z, mouseID, blockID);
+		}
+		
+		this.level.netSetTile(x, y, z, blockID);
+		Tile.tiles[blockID].onPlace(this.level, x, y, z);
+	}*/
 
 	private void tick() {
 		if(this.soundPlayer != null) {

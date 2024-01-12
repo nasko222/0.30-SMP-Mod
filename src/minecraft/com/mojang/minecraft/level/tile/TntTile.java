@@ -16,4 +16,9 @@ public final class TntTile extends Tile {
 	public final int resourceCount() {
 		return 0;
 	}
+	
+	public final void onTileRemoved(Level level, int x, int y, int z) {
+	
+		level.explode(null, x, y, z, 3);
+	}
 }
