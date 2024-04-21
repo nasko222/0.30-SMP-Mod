@@ -1262,9 +1262,9 @@ public final class Minecraft implements Runnable {
 			}
 			
 			if (id == 1) {
-				if (this.player.inventory.getSelected() == Tile.apple.getId()) {
+				if (this.player.inventory.getSelected() == Tile.apple.getId() || this.player.inventory.getSelected() == Tile.appleGold.getId()) {
 					int health = this.player.health;
-					health += 4;
+					health += this.player.inventory.getSelected() == Tile.appleGold.getId() ? 20 : 4;
 					this.player.health = Math.min(health, 20);
 					this.player.inventory.count[this.player.inventory.selected]--;
 					if (this.player.inventory.count[this.player.inventory.selected] <= 0)

@@ -88,7 +88,8 @@ public class Tile {
 	public static final Tile axeGold = new ItemTile(111, 64+16+16+16+3);
 	public static final Tile shovelGold = new ItemTile(112, 64+16+16+16+16+3);
 	
-	public static final Tile apple = new FoodTile(121, 64+16+16+6);
+	public static final Tile apple = new FoodTile(121, 64+16+16+16+16+16);
+	public static final Tile appleGold = new FoodTile(122, 64+16+16+16+16+16+1);
 	
 	public int tex;
 	public final int id;
